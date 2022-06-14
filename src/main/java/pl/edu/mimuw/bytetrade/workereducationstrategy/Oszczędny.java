@@ -3,7 +3,7 @@ package pl.edu.mimuw.bytetrade.workereducationstrategy;
 import pl.edu.mimuw.bytetrade.worker.Worker;
 
 final class Oszczędny extends WorkerEducationStrategy {
-  int diamondsLimit;
+  private final int diamondsLimit;
 
   public Oszczędny(int diamondsLimit) {
     this.diamondsLimit = diamondsLimit;

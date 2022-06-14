@@ -30,7 +30,7 @@ final class Średni extends SpeculatorTradingStrategy {
     var itemsToTrade = speculator.getItemsToTrade();
     for (var stack : PhysicalItemFactory.getAllItems()) {
       var item = stack.item;
-      if (!item.getVirtual().isSellable()) continue;
+      if (item.getVirtual().isUnsellable()) continue;
       var basePrice = exchange.getStatistics().getAveragePriceOverLastNDays(item, history);
 
       if (itemsToTrade.count(item) > 0) {

@@ -20,7 +20,7 @@ final class Wypukły extends SpeculatorTradingStrategy {
     var itemsToTrade = speculator.getItemsToTrade();
     for (var items : PhysicalItemFactory.getAllItems()) {
       var item = items.item;
-      if (!item.getVirtual().isSellable()) continue;
+      if (item.getVirtual().isUnsellable()) continue;
 
       var basePrice = exchange.getStatistics().getAveragePriceXDaysAgo(item, 1);
 

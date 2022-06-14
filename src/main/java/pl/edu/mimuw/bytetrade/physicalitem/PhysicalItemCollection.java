@@ -8,6 +8,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * A collection of {@link PhysicalItem} elements. They are stored by their type, allowing for easy,
+ * type-system-friendly querying.
+ */
 public class PhysicalItemCollection implements Iterable<Stack<? extends PhysicalItem>> {
   public final Bag<Food> food;
   public final Bag<Clothes> clothes;
@@ -23,17 +27,16 @@ public class PhysicalItemCollection implements Iterable<Stack<? extends Physical
     this.programs = new Bag<>();
   }
 
-  public void add(Stack<? extends PhysicalItem> item) {
-    add(item.item, item.count);
+  public void takeAllFrom(PhysicalItemCollection items) {
+    items.allCounters().forEach(this::filterOut);
   }
 
-  public void add(PhysicalItem value, double count) {
-    value.matchConsumer(
-        food1 -> food.add(food1, count),
-        clothes1 -> clothes.add(clothes1, count),
-        tool -> tools.add(tool, count),
-        diamond -> diamonds.add(diamond, count),
-        program -> programs.add(program, count));
+  private Stream<Bag<? extends PhysicalItem>> allCounters() {
+    return Stream.of(food, clothes, tools, diamonds, programs);
+  }
+
+  public void filterOut(Bag<? extends PhysicalItem> items) {
+    items.stream().forEach(this::remove);
   }
 
   public void remove(Stack<? extends PhysicalItem> item) {
@@ -49,17 +52,22 @@ public class PhysicalItemCollection implements Iterable<Stack<? extends Physical
         program -> programs.remove(program, count));
   }
 
-  public void takeAllFrom(PhysicalItemCollection items) {
-    items.allCounters().forEach(this::filterOut);
+  public void addAllFrom(Bag<? extends PhysicalItem> items) {
+    items.stream().forEach(this::add);
   }
 
-  private Stream<Bag<? extends PhysicalItem>> allCounters() {
-    return Stream.of(food, clothes, tools, diamonds, programs);
+  public void add(Stack<? extends PhysicalItem> item) {
+    add(item.item, item.count);
   }
 
-  public void filterOut(Bag<? extends PhysicalItem> items) {}
-
-  public void addAllFrom(Bag<? extends PhysicalItem> items) {}
+  public void add(PhysicalItem value, double count) {
+    value.matchConsumer(
+        food1 -> food.add(food1, count),
+        clothes1 -> clothes.add(clothes1, count),
+        tool -> tools.add(tool, count),
+        diamond -> diamonds.add(diamond, count),
+        program -> programs.add(program, count));
+  }
 
   public double count() {
     return allCounters().mapToDouble(Bag::count).sum();

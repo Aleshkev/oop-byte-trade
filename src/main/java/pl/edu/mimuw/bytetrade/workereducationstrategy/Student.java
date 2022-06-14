@@ -4,8 +4,8 @@ import pl.edu.mimuw.bytetrade.physicalitem.PhysicalItemFactory;
 import pl.edu.mimuw.bytetrade.worker.Worker;
 
 final class Student extends WorkerEducationStrategy {
-  int buffer;
-  int timeframe;
+  private final int buffer;
+  private final int timeframe;
 
   public Student(int buffer, int timeframe) {
     this.buffer = buffer;

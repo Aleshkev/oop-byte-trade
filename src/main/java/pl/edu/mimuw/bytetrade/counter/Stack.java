@@ -1,6 +1,5 @@
 package pl.edu.mimuw.bytetrade.counter;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -17,13 +16,6 @@ public class Stack<T> {
     if (count <= 0) throw new IllegalArgumentException("Stack size must be positive.");
     this.count = count;
   }
-
-//  public List<Stack<T>> split(int targetCount) {
-//    if (targetCount > count)
-//      throw new IllegalArgumentException(
-//          "Stack can't be split up to get more elements than there are inside.");
-//    return List.of(new Stack<>(item, targetCount), new Stack<>(item, count - targetCount));
-//  }
 
   @Override
   public int hashCode() {
