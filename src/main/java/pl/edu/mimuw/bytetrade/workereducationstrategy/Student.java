@@ -17,7 +17,9 @@ final class Student extends WorkerEducationStrategy {
     var exchange = worker.getSimulation().getExchange();
 
     var averageFoodPrice =
-        exchange.getAveragePriceOverLastNDays(PhysicalItemFactory.food()::equals, timeframe);
+        exchange
+            .getStatistics()
+            .getAveragePriceOverLastNDays(PhysicalItemFactory.food(), timeframe);
     return worker.howManyDiamondsDoTheyHave() >= 100.0 * buffer * averageFoodPrice;
   }
 

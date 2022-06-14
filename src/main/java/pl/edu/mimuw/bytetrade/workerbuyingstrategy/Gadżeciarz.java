@@ -2,9 +2,9 @@ package pl.edu.mimuw.bytetrade.workerbuyingstrategy;
 
 import pl.edu.mimuw.bytetrade.counter.Stack;
 import pl.edu.mimuw.bytetrade.exchange.Exchange;
+import pl.edu.mimuw.bytetrade.exchange.WorkerBuyOffer;
 import pl.edu.mimuw.bytetrade.itemtype.VirtualItem;
 import pl.edu.mimuw.bytetrade.worker.Worker;
-import pl.edu.mimuw.bytetrade.exchange.WorkerBuyOffer;
 
 /**
  * Like {@link Zmechanizowany}, but also buys programs to match the amount of things the worker

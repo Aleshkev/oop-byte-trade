@@ -53,7 +53,7 @@ public class Bag<T> implements Iterable<Stack<T>> {
   }
 
   public Stream<Stack<T>> stream() {
-    return counts.entrySet().stream().map(Stack::new);
+    return counts.entrySet().stream().map(entry -> new Stack<>(entry.getKey(), entry.getValue()));
   }
 
   public void clear() {
@@ -64,7 +64,11 @@ public class Bag<T> implements Iterable<Stack<T>> {
     return getNRandom(n, x -> true);
   }
 
-  public Bag<T> getNRandom(double n, Function<T, Boolean> filter) {}
+  /** Returns {@code n} random items. */
+  public Bag<T> getNRandom(double n, Function<T, Boolean> filter) {
+    // TODO
+    return null;
+  }
 
   @Override
   public String toString() {

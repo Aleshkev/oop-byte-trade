@@ -21,8 +21,9 @@ final class Chciwy extends WorkerProductionStrategy {
             Comparator.comparingDouble(
                 virtualItem ->
                     worker.howMuchWouldProduce(virtualItem)
-                        * exchange.getAveragePriceXDaysAgo(
-                            worker.whatWouldProduce(virtualItem)::equals, 1)))
+                        * exchange
+                            .getStatistics()
+                            .getAveragePriceXDaysAgo(worker.whatWouldProduce(virtualItem), 1)))
         .orElse(VirtualItem.Diamond);
   }
 

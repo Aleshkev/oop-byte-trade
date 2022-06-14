@@ -1,6 +1,9 @@
 package pl.edu.mimuw.bytetrade.worker;
 
+import pl.edu.mimuw.bytetrade.counter.Stack;
 import pl.edu.mimuw.bytetrade.exchange.Exchange;
+import pl.edu.mimuw.bytetrade.exchange.SpeculatorBuyOffer;
+import pl.edu.mimuw.bytetrade.exchange.SpeculatorSellOffer;
 import pl.edu.mimuw.bytetrade.exchange.WorkerSellOffer;
 import pl.edu.mimuw.bytetrade.itemtype.VirtualItem;
 import pl.edu.mimuw.bytetrade.physicalitem.PhysicalItem;
@@ -102,6 +105,7 @@ public final class Worker extends Agent {
 
   private void produce(VirtualItem virtualItem) {
     var quantity = howMuchWouldProduce(virtualItem);
+    // TODO
   }
 
   /** How many units of clothing will the worker attempt to use in a single day. */
@@ -117,6 +121,7 @@ public final class Worker extends Agent {
     bonus += hunger.getBonusToProduction();
     for (var stack : thingsToUse.tools)
       bonus += stack.count * stack.item.getBonusToProductionWhenUsed();
+    // TODO: Penalty for lack of clothes
 
     return Math.max(0, base * (100 + bonus) / 100);
   }
@@ -142,20 +147,24 @@ public final class Worker extends Agent {
   }
 
   public void makeOffers(Exchange exchange) {
+    // Sell everything.
     thingsToSell.stream()
-        .forEach(stack -> exchange.addWorkerSellOffer(new WorkerSellOffer(this, stack)));
+        .forEach(
+            stack ->
+                exchange.addWorkerSellOffer(
+                    new WorkerSellOffer(this, new Stack<>(stack.item, stack.count))));
 
     buyingStrategy.makeOffersForToday(this, exchange);
   }
 
-  public void finalizeSellOffer(PhysicalItem item, int quantity, int price) {
-    thingsToSell.remove(item, quantity);
-    thingsToUse.add(PhysicalItemFactory.diamond(), quantity * price);
+  public void finalizeSellOffer(SpeculatorBuyOffer offer) {
+    thingsToSell.remove(offer.items);
+    thingsToUse.add(offer.totalPrice());
   }
 
-  public void finalizeBuyOffer(PhysicalItem item, int quantity, int price) {
-    thingsToUse.add(item, quantity);
-    thingsToUse.remove(PhysicalItemFactory.diamond(), quantity * price);
+  public void finalizeBuyOffer(SpeculatorSellOffer offer) {
+    thingsToUse.add(offer.items);
+    thingsToUse.remove(offer.totalPrice());
   }
 
   public boolean isAlive() {

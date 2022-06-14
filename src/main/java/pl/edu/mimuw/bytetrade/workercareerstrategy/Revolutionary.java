@@ -20,7 +20,10 @@ final class Revolutionary extends WorkerCareerStrategy {
         .sorted(Comparator.comparingInt(VirtualItem::getIndex).reversed())
         .max(
             Comparator.comparingDouble(
-                virtualItem -> exchange.getCountOverLastNDays(virtualItem::isLike, n)))
+                virtualItem ->
+                    exchange
+                        .getStatistics()
+                        .howManyWereOfferedToBeSoldInTheLastNDays(virtualItem, n)))
         .orElse(VirtualItem.Diamond);
   }
 

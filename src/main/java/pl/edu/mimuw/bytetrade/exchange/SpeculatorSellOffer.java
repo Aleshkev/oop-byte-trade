@@ -6,6 +6,7 @@ import pl.edu.mimuw.bytetrade.physicalitem.PhysicalItem;
 import pl.edu.mimuw.bytetrade.physicalitem.PhysicalItemFactory;
 import pl.edu.mimuw.bytetrade.speculator.Speculator;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -22,11 +23,12 @@ public class SpeculatorSellOffer {
     this.price = price;
   }
 
+  /** Orders the offers according to attractiveness from the perspective of the {@code buyOffer}. */
   public static List<SpeculatorSellOffer> prioritizeOffers(
       Set<SpeculatorSellOffer> sellOffers, WorkerBuyOffer buyOffer) {
     return sellOffers.stream()
         .filter(offer -> offer.items.item.getVirtual() == buyOffer.items.item)
-        .sorted(Co)
+        .sorted(Comparator.comparing(offer -> offer.items.item))
         .collect(Collectors.toList());
   }
 

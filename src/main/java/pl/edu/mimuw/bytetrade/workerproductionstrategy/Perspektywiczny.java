@@ -34,11 +34,14 @@ final class Perspektywiczny extends WorkerProductionStrategy {
         .max(
             Comparator.comparingDouble(
                 virtualItem ->
-                    exchange.getAveragePriceXDaysAgo(
-                            worker.whatWouldProduce(virtualItem)::equals,
-                            Math.min(perspectiveHistory, day))
-                        - exchange.getAveragePriceXDaysAgo(
-                            worker.whatWouldProduce(virtualItem)::equals, 1)))
+                    exchange
+                            .getStatistics()
+                            .getAveragePriceXDaysAgo(
+                                worker.whatWouldProduce(virtualItem),
+                                Math.min(perspectiveHistory, day))
+                        - exchange
+                            .getStatistics()
+                            .getAveragePriceXDaysAgo(worker.whatWouldProduce(virtualItem), 1)))
         .orElse(VirtualItem.Diamond);
   }
 }

@@ -31,7 +31,7 @@ final class Średni extends SpeculatorTradingStrategy {
     for (var stack : PhysicalItemFactory.getAllItems()) {
       var item = stack.item;
       if (!item.getVirtual().isSellable()) continue;
-      var basePrice = exchange.getAveragePriceOverLastNDays(item::equals, history);
+      var basePrice = exchange.getStatistics().getAveragePriceOverLastNDays(item, history);
 
       if (itemsToTrade.count(item) > 0) {
         exchange.addSpeculatorBuyOffer(

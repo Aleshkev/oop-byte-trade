@@ -34,8 +34,10 @@ final class Średniak extends WorkerProductionStrategy {
                     IntStream.range(1, Math.min(averageProductionHistory, day))
                         .mapToDouble(
                             daysAgo ->
-                                exchange.getAveragePriceXDaysAgo(
-                                    worker.whatWouldProduce(virtualItem)::equals, daysAgo))
+                                exchange
+                                    .getStatistics()
+                                    .getAveragePriceXDaysAgo(
+                                        worker.whatWouldProduce(virtualItem), daysAgo))
                         .max()
                         .orElse(0)))
         .orElse(VirtualItem.Diamond);

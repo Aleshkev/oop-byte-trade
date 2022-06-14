@@ -57,9 +57,7 @@ public class PhysicalItemCollection implements Iterable<Stack<? extends Physical
     return Stream.of(food, clothes, tools, diamonds, programs);
   }
 
-  public void filterOut(Bag<? extends PhysicalItem> items) {
-
-  }
+  public void filterOut(Bag<? extends PhysicalItem> items) {}
 
   public void addAllFrom(Bag<? extends PhysicalItem> items) {}
 
@@ -68,20 +66,20 @@ public class PhysicalItemCollection implements Iterable<Stack<? extends Physical
   }
 
   public double count(PhysicalItem item) {
-    return allCounters().mapToDouble(bag -> bag.count(item)).sum();
+    return item.match(food::count, clothes::count, tools::count, diamonds::count, programs::count);
   }
 
   public boolean isEmpty() {
     return allCounters().allMatch(Bag::isEmpty);
   }
 
-  public Stream<Stack<? extends PhysicalItem>> stream() {
-//    return entrySet().stream();
-    // TODO
-  }
-
   public Set<Stack<? extends PhysicalItem>> entrySet() {
     return stream().collect(Collectors.toSet());
+  }
+
+  public Stream<Stack<? extends PhysicalItem>> stream() {
+    // TODO
+    return null;
   }
 
   @Override

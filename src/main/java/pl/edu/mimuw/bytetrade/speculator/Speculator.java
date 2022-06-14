@@ -29,9 +29,11 @@ public class Speculator extends Agent {
 
   public void finalizeBuyOffer(SpeculatorBuyOffer offer) {
     itemsToTrade.remove(offer.totalPrice());
+    itemsToTrade.add(offer.items);
   }
 
   public void finalizeSellOffer(SpeculatorSellOffer offer) {
-    itemsToTrade.diamonds.add(offer.totalPrice());
+    itemsToTrade.add(offer.totalPrice());
+    itemsToTrade.remove(offer.items);
   }
 }

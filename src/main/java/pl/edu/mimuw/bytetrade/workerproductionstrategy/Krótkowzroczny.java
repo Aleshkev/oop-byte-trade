@@ -19,7 +19,7 @@ final class Krótkowzroczny extends WorkerProductionStrategy {
         .sorted(Comparator.comparingInt(VirtualItem::getIndex).reversed())
         .min(
             Comparator.comparingDouble(
-                virtualItem -> exchange.getAveragePriceXDaysAgo(virtualItem::isLike, 1)))
+                virtualItem -> exchange.getStatistics().getAveragePriceXDaysAgo(virtualItem, 1)))
         .orElse(VirtualItem.Diamond);
   }
 

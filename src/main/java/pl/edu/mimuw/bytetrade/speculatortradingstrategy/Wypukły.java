@@ -2,10 +2,10 @@ package pl.edu.mimuw.bytetrade.speculatortradingstrategy;
 
 import pl.edu.mimuw.bytetrade.counter.Stack;
 import pl.edu.mimuw.bytetrade.exchange.Exchange;
-import pl.edu.mimuw.bytetrade.physicalitem.PhysicalItemFactory;
-import pl.edu.mimuw.bytetrade.speculator.Speculator;
 import pl.edu.mimuw.bytetrade.exchange.SpeculatorBuyOffer;
 import pl.edu.mimuw.bytetrade.exchange.SpeculatorSellOffer;
+import pl.edu.mimuw.bytetrade.physicalitem.PhysicalItemFactory;
+import pl.edu.mimuw.bytetrade.speculator.Speculator;
 
 /**
  * Buys things if the function created from prices over the last 3 days is strictly convex. Sells if
@@ -22,16 +22,16 @@ final class Wypukły extends SpeculatorTradingStrategy {
       var item = items.item;
       if (!item.getVirtual().isSellable()) continue;
 
-      var basePrice = exchange.getAveragePriceXDaysAgo(item::equals, 1);
+      var basePrice = exchange.getStatistics().getAveragePriceXDaysAgo(item, 1);
 
       var day = exchange.getSimulation().getDayNumber();
 
       var isStrictlyConvex =
           day < 3
               || isStrictlyConvex(
-                  exchange.getAveragePriceXDaysAgo(item::equals, 3),
-                  exchange.getAveragePriceXDaysAgo(item::equals, 2),
-                  exchange.getAveragePriceXDaysAgo(item::equals, 1));
+                  exchange.getStatistics().getAveragePriceXDaysAgo(item, 3),
+                  exchange.getStatistics().getAveragePriceXDaysAgo(item, 2),
+                  exchange.getStatistics().getAveragePriceXDaysAgo(item, 1));
       if (isStrictlyConvex) {
         exchange.addSpeculatorBuyOffer(
             new SpeculatorBuyOffer(speculator, new Stack<>(item, 100), basePrice * (1. - .1)));
@@ -40,9 +40,9 @@ final class Wypukły extends SpeculatorTradingStrategy {
       var isStrictlyConcave =
           day < 3
               || isStrictlyConcave(
-                  exchange.getAveragePriceXDaysAgo(item::equals, 3),
-                  exchange.getAveragePriceXDaysAgo(item::equals, 2),
-                  exchange.getAveragePriceXDaysAgo(item::equals, 1));
+                  exchange.getStatistics().getAveragePriceXDaysAgo(item, 3),
+                  exchange.getStatistics().getAveragePriceXDaysAgo(item, 2),
+                  exchange.getStatistics().getAveragePriceXDaysAgo(item, 1));
       if (isStrictlyConcave) {
         exchange.addSpeculatorSellOffer(
             new SpeculatorSellOffer(
