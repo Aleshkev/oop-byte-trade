@@ -12,3 +12,4 @@ Wysyłam co zrobiłem, kilka punktów powinno być bo stan ukończenia oceniam n
 - [ ] implementacja działania giełdy
 - [ ] odczytywanie i zapisywanie JSON-a
 
+Pozdrawiam 😅
